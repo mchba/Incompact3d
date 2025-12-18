@@ -1,6 +1,8 @@
 
 [![DOI](https://zenodo.org/badge/127266756.svg)](https://zenodo.org/badge/latestdoi/127266756)
 
+Welcome to mchba's version of xcompact3d!
+
 ## The Xcompact3d code
 
 Xcompact3d is a Fortran-based framework of high-order finite-difference flow solvers 

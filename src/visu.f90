@@ -561,6 +561,7 @@ contains
     use param, only : iibm, itime
     use utilities, only : gen_filename,gen_snapshotname,gen_h5path
     use decomp_2d_io, only : decomp_2d_write_one, decomp_2d_write_plane
+    use variables, only : nx, ny, nz
 
     implicit none
 
@@ -576,6 +577,7 @@ contains
 
     integer :: precision
     character(len=:), allocatable :: fmt
+    integer :: middle_index
     
 #ifndef ADIOS2
     mpiio = .true.
@@ -656,7 +658,15 @@ contains
           call decomp_2d_write_one(1,f1,"data",gen_filename(pathname, filename, num, 'bin'),0,io_name)
        end if
     else
-       call decomp_2d_write_plane(1,ta1,output2D,-1,"data",gen_filename(pathname, filename, num, 'bin'),io_name)
+      ! Output 2D plane for the middle index of the output2D-direction
+      if (output2D == 1) then
+         middle_index = nx/2
+      else if (output2D == 2) then
+         middle_index = ny/2
+      else if (output2D == 3) then
+         middle_index = nz/2
+      endif
+      call decomp_2d_write_plane(1,ta1,output2D,middle_index,"data",gen_filename(pathname, filename, num, 'bin'),io_name)
     endif
 
   end subroutine write_field

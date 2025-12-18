@@ -317,9 +317,12 @@ contains
           call decomp_2d_start_io(io_turb, turb_dir)
        end if
 #endif
-       call decomp_2d_write_one(1, nut1, turb_dir, &
+       ! Only output nut_sgs for 3D output (output2D=0)
+       if (output2D.eq.0) then
+         call decomp_2d_write_one(1, nut1, turb_dir, &
             gen_filename(".", "nut_smag", itime / ioutput, "bin"), &
             2, io_turb)
+       endif
 #ifdef ADIOS2
        if (jles /= 3) then
           call decomp_2d_end_io(io_turb, turb_dir)
@@ -892,9 +895,10 @@ contains
 
       ! write(filename, "('./data/dsmagcst_initial',I4.4)") itime / imodulo
       ! call decomp_2d_write_one(1, smagC1, filename, 2)
-
+      if (output2D.eq.0) then
        call decomp_2d_write_one(1, dsmagcst1, turb_dir, gen_filename(".", "dsmagcst_final", itime / ioutput, "bin"), 2, io_turb)
        call decomp_2d_write_one(1, nut1, turb_dir, gen_filename(".", "nut_dynsmag", itime / ioutput, "bin"), 2, io_turb)
+      endif
 #ifdef ADIOS2
        call decomp_2d_end_io(io_turb, turb_dir)
 #endif
@@ -1078,7 +1082,9 @@ contains
 #ifdef ADIOS2
      call decomp_2d_start_io(io_turb, turb_dir)
 #endif
-     call decomp_2d_write_one(1, nut1, turb_dir, gen_filename(".", "nut_wale", itime / ioutput, "bin"), 2, io_turb)
+     if (output2D.eq.0) then
+       call decomp_2d_write_one(1, nut1, turb_dir, gen_filename(".", "nut_wale", itime / ioutput, "bin"), 2, io_turb)
+     endif
 #ifdef ADIOS2
      call decomp_2d_end_io(io_turb, turb_dir)
 #endif

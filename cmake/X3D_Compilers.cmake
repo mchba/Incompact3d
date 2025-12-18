@@ -31,7 +31,7 @@ if (DOUBLE_PRECISION)
   add_definitions("-DDOUBLE_PREC")
 endif()
 
-option(SINGLE_PRECISION_OUTPUT "Build XCompact with output in single precision" OFF)
+option(SINGLE_PRECISION_OUTPUT "Build XCompact with output in single precision" ON)
 if (SINGLE_PRECISION_OUTPUT)
   add_definitions("-DSAVE_SINGLE")
 endif()
